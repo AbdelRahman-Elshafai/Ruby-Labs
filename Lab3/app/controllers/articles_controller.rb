@@ -1,6 +1,12 @@
 class ArticlesController < ApplicationController
   def index
     @articles = Article.all
+    if user_signed_in?
+      @user = current_user.email
+    else
+      @user = "No User Is Signed In"
+
+    end
   end
 
   def show
