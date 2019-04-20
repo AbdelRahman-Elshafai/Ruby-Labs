@@ -1,4 +1,6 @@
 class ArticlesController < ApplicationController
+  load_and_authorize_resource
+  skip_authorize_resource :only => [:index , :show, :new , :create  , :update]
   def index
     @articles = Article.all
     if user_signed_in?
@@ -22,8 +24,8 @@ class ArticlesController < ApplicationController
   end
 
   def create
-    @article = Article.new(article_params)
-
+    @user = User.find(current_user.id)
+    @article = @user.articles.create(article_params)
     if @article.save
       redirect_to @article
     else
@@ -43,7 +45,10 @@ class ArticlesController < ApplicationController
 
   def destroy
     @article = Article.find(params[:id])
+
     @article.destroy
+
+
 
     redirect_to articles_path
   end

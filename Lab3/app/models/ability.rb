@@ -31,7 +31,7 @@ class Ability
     if user.present?
       can :create  , Comment
 
-      can  [:delete , :edit] , Article , user_id: current_user_id
+      can  [:destroy , :edit], Article , user_id: user.id
     end
   end
 end
